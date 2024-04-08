@@ -1,6 +1,7 @@
 import numpy as np
+from scipy.interpolate import CubicSpline
 
-def interpolate(X, Y, new_size):
+def interpolate_lin(X, Y, new_size):
     # X, Y are old arrays, we rescale it to new_size
     # returns new X and Y with size = new_size
     X, Y = np.array(X), np.array(Y)
@@ -17,4 +18,19 @@ def interpolate(X, Y, new_size):
             if new_X[j] > X[i] and new_X[j] <= X[i+1]:
                 new_Y[j] = Y[i] + (new_X[j] - X[i])*(Y[i+1]-Y[i])/(X[i+1]-X[i])
     new_Y[-1] = Y[-1]
+    return new_X, new_Y
+
+def interpolate_spline(X, Y, new_size):
+    # X, Y are old arrays, we rescale it to new_size
+    # returns new X and Y with size = new_size
+    X, Y = np.array(X), np.array(Y)
+    argsX = X.argsort()
+    X = X[argsX]
+    Y = Y[argsX]
+    
+    cs = CubicSpline(X, Y)
+    
+    new_X = np.linspace(X.min(), X.max(), new_size)
+    new_Y = cs(new_X)
+    
     return new_X, new_Y
