@@ -18,7 +18,7 @@ def splitting(z, ggkp, t_ir=201, t_uv=11):
     for ind in range(data_size):
         not_ir_uv_ggkp[ind] = np.average(not_ir_ggkp[max(0, ind - int(t_uv / 2)):min(ind + int(t_uv / 2), data_size)])
 
-    # botv gthtctxtybz c 0 -- они будут нашими границами участков классов
+    # ищем пересечения с 0 -- они будут нашими границами участков классов
     borders = np.zeros(0)
     for ind in range(1, data_size):
         if not_ir_uv_ggkp[ind - 1] * not_ir_uv_ggkp[ind] < 0:
